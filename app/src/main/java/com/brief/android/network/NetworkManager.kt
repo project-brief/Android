@@ -14,8 +14,7 @@ import retrofit2.Response
 /**
  * Created by JJH on 2020-02-01
  */
-class NetworkManager : NetworkInfo{
-    private constructor(context : Context) : super(context)
+class NetworkManager(context : Context) : NetworkInfo(context) {
 
     companion object {
         @Volatile private var instance: NetworkManager? = null

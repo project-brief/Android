@@ -11,14 +11,11 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Created by JJH on 2020-02-01
  * Network 설정
  */
-open class NetworkInfo {
+open class NetworkInfo(private val mContext : Context) {
     protected lateinit var mHeadersMap : HashMap<String, String>
     protected lateinit var mNetworkApi : NetworkApi
-    private var mContext : Context
 
-    protected constructor(context : Context) {
-        mContext = context
-
+    init {
         initNetwork()
     }
 
