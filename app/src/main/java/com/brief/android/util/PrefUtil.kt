@@ -3,6 +3,8 @@ package com.brief.android.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.brief.android.data.Config
+import com.google.gson.Gson
+import kotlin.reflect.KClass
 
 /**
  * Created by JJH on 2020-02-06
@@ -63,5 +65,10 @@ class PrefUtil(private val mContext: Context) {
 
     fun getLong(name: String): Long = mSharedPreferences.getLong(name, 0)
 
+    fun <T> setAny(name: String, value: T) = with(mSharedPreferences.edit()){
+        putString(name, Gson().toJson(value))
+        apply()
+    }
 
+    fun <T:Any> getAny(name : String, kClass:KClass<T>) : KClass<T> = Gson().fromJson(mSharedPreferences.getString(name, ""), kClass::class.java)
 }
