@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.brief.android.data.Config
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import kotlin.reflect.KClass
 
 /**
@@ -71,4 +73,17 @@ class PrefUtil(private val mContext: Context) {
     }
 
     fun <T:Any> getAny(name : String, kClass:KClass<T>) : KClass<T> = Gson().fromJson(mSharedPreferences.getString(name, ""), kClass::class.java)
+
+    fun <T> setArray(name : String, value : T) = with(mSharedPreferences.edit()){
+        putString(name, Gson().toJson(value))
+        apply()
+    }
+
+    fun <T> getArray(name : String, clazz: Class<T>) : List<T> {
+        val type : Type = TypeToken.getParameterized(List::class.java, clazz).type
+        val data = mSharedPreferences.getString(name, "")
+        return Gson().fromJson(data, type)
+    }
+
+    fun contains(key : String) : Boolean = mSharedPreferences.contains(key)
 }
