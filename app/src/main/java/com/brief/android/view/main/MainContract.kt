@@ -1,5 +1,6 @@
 package com.brief.android.view.main
 
+import com.brief.android.adapter.ShortUrlListAdapterContract
 import com.brief.android.view.BaseContract
 
 /**
@@ -8,11 +9,13 @@ import com.brief.android.view.BaseContract
 interface MainContract : BaseContract {
 
     interface View : BaseContract.View {
+        fun refresh()
         fun setOriginUrl(value : String)
         fun setShortUrl(value : String)
     }
 
     interface Presenter : BaseContract.Presenter {
+        fun setAdapterModal(modal : ShortUrlListAdapterContract.Model)
         fun getOriginUrl()
         fun getShortUrl(value : String)
         fun copyShortUrl(value : String)

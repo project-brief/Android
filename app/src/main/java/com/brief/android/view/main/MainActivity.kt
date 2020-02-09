@@ -2,13 +2,19 @@ package com.brief.android.view.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.brief.android.R
+import com.brief.android.adapter.ShortUrlListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by JJH on 2020-02-01
  */
 class MainActivity : AppCompatActivity(), MainContract.View {
+
+    private val mAdapter : ShortUrlListAdapter by lazy {
+        ShortUrlListAdapter(this@MainActivity)
+    }
 
     private lateinit var mMainPresenter : MainPresenter
 
@@ -27,6 +33,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         btn_short_url.setOnClickListener {
             mMainPresenter.getShortUrl(et_origin_url.text.toString())
         }
+
+        rv_main.adapter =mAdapter
+        rv_main.layoutManager = LinearLayoutManager(this)
+
+        mMainPresenter.setAdapterModal(mAdapter)
+        mMainPresenter.start()
     }
 
     override fun setOriginUrl(value: String) {
@@ -35,5 +47,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun setShortUrl(value: String) {
         et_short_url.setText(value)
+    }
+
+    override fun refresh() {
+        mAdapter.refresh()
     }
 }
