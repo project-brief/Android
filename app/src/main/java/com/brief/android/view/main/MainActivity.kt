@@ -1,10 +1,12 @@
 package com.brief.android.view.main
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brief.android.R
 import com.brief.android.adapter.ShortUrlListAdapter
+import com.brief.android.util.AlertUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -51,5 +53,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun refresh() {
         mAdapter.refresh()
+    }
+
+    override fun showDialog(msg: String) {
+        AlertUtil.showMsgAlearDialog(context = this, msg = msg, cancelable = true,
+            positiveBtnLabel = "확인", okClickListener = DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.dismiss() })
     }
 }

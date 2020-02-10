@@ -10,6 +10,7 @@ interface MainContract : BaseContract {
 
     interface View : BaseContract.View {
         fun refresh()
+        fun showDialog(msg : String)
         fun setOriginUrl(value : String)
         fun setShortUrl(value : String)
     }

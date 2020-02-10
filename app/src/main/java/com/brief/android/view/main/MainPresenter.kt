@@ -3,6 +3,7 @@ package com.brief.android.view.main
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import com.brief.android.R
 import com.brief.android.adapter.ShortUrlListAdapterContract
 import com.brief.android.data.Config
 import com.brief.android.network.NetworkCallback
@@ -30,30 +31,39 @@ class MainPresenter(private var mView : MainContract.View, private var mContext 
     }
 
     override fun getOriginUrl() {
-        mView.setOriginUrl(clipboard.primaryClip?.getItemAt(0)?.text.toString())
+        if (clipboard.primaryClip?.getItemAt(0) != null) {
+            mView.setOriginUrl(clipboard.primaryClip?.getItemAt(0)?.text.toString())
+        } else {
+            mView.showDialog(mContext.getString(R.string.not_have_clipboard))
+        }
     }
 
     override fun getShortUrl(value: String) {
-        NetworkManager.getInstance(mContext).getShortUrl(value, object : NetworkCallback<OriginToShortData> {
-            override fun onSuccess(obj: OriginToShortData) {
-                val originToShortDataList : ArrayList<OriginToShortData> = when(mPrefUtil.contains(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY)) {
-                    true -> mPrefUtil.getArray<OriginToShortData>(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, OriginToShortData::class.java) as ArrayList
-                    false -> ArrayList<OriginToShortData>()
+        if (value.matches(Regex("^(http|https)?:\\/\\/.*"))) {
+            NetworkManager.getInstance(mContext).getShortUrl(value, object : NetworkCallback<OriginToShortData> {
+                override fun onSuccess(obj: OriginToShortData) {
+                    val originToShortDataList : ArrayList<OriginToShortData> = when(mPrefUtil.contains(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY)) {
+                        true -> mPrefUtil.getArray<OriginToShortData>(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, OriginToShortData::class.java) as ArrayList
+                        false -> ArrayList<OriginToShortData>()
+                    }
+
+                    originToShortDataList.add(obj)
+
+                    mPrefUtil.setArray(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, originToShortDataList)
+
+                    mModel.add(obj)
+
+                    mView.setShortUrl(obj.short_url)
+                    mView.refresh()
                 }
+                override fun onFail(errMsg: String?) {
+                    mView.showDialog(mContext.getString(R.string.network_error))
+                }
+            })
+        } else {
+            mView.showDialog(mContext.getString(R.string.not_correct_url))
+        }
 
-                originToShortDataList.add(obj)
-
-                mPrefUtil.setArray(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, originToShortDataList)
-
-                mModel.add(obj)
-
-                mView.setShortUrl(obj.short_url)
-                mView.refresh()
-            }
-            override fun onFail(errMsg: String?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
     }
 
     override fun copyShortUrl(value: String) {
