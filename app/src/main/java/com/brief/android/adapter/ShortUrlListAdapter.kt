@@ -37,11 +37,11 @@ class ShortUrlListAdapter(private val mContext : Context) : RecyclerView.Adapter
     }
 
     override fun addAll(items: ArrayList<OriginToShortData>) {
-        mItemArray.addAll(items)
+        mItemArray.addAll(items.reversed())
     }
 
     override fun add(item: OriginToShortData) {
-        mItemArray.add(item)
+        mItemArray.add(0, item)
     }
 
     override fun remove(position: Int) {

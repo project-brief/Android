@@ -26,8 +26,14 @@ class MainPresenter(private var mView : MainContract.View, private var mContext 
     }
 
     override fun start() {
-        mModel.addAll(mPrefUtil.getArray<OriginToShortData>(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, OriginToShortData::class.java) as ArrayList<OriginToShortData>)
-        mView.refresh()
+        val itemList = mPrefUtil.getArray<OriginToShortData>(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, OriginToShortData::class.java)
+        when (itemList){
+            itemList as? ArrayList<OriginToShortData> -> {
+                mModel.addAll(itemList)
+                mView.refresh()
+            }
+            else -> TODO("리스트 정보가 없을경우 처리")
+        }
     }
 
     override fun getOriginUrl() {
@@ -42,13 +48,12 @@ class MainPresenter(private var mView : MainContract.View, private var mContext 
         if (value.matches(Regex("^(http|https)?:\\/\\/.*"))) {
             NetworkManager.getInstance(mContext).getShortUrl(value, object : NetworkCallback<OriginToShortData> {
                 override fun onSuccess(obj: OriginToShortData) {
-                    val originToShortDataList : ArrayList<OriginToShortData> = when(mPrefUtil.contains(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY)) {
+                    val originToShortDataList = when(mPrefUtil.contains(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY)) {
                         true -> mPrefUtil.getArray<OriginToShortData>(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, OriginToShortData::class.java) as ArrayList
                         false -> ArrayList<OriginToShortData>()
                     }
 
                     originToShortDataList.add(obj)
-
                     mPrefUtil.setArray(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, originToShortDataList)
 
                     mModel.add(obj)

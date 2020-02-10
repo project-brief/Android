@@ -82,7 +82,11 @@ class PrefUtil(private val mContext: Context) {
     fun <T> getArray(name : String, clazz: Class<T>) : List<T> {
         val type : Type = TypeToken.getParameterized(List::class.java, clazz).type
         val data = mSharedPreferences.getString(name, "")
-        return Gson().fromJson(data, type)
+
+        return when ("" != data) {
+            true -> Gson().fromJson(data, type)
+            false -> emptyList()
+        }
     }
 
     fun contains(key : String) : Boolean = mSharedPreferences.contains(key)
