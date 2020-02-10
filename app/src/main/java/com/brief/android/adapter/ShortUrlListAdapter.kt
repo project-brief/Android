@@ -25,8 +25,8 @@ class ShortUrlListAdapter(private val mContext : Context) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ShortUrlViewHolder, position: Int) {
         with(holder.itemView) {
-            btn_origin_url.text = mItemArray[position].original_url
-            btn_short_url.text = mItemArray[position].short_url
+            tv_origin_url.text = mItemArray[position].original_url
+            tv_short_url.text = mItemArray[position].short_url
         }
     }
 
