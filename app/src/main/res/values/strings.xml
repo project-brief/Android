@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShortURL</string>
+    <string name="app_name">BRIEF</string>
 
     <string name="network_url">http://128.199.112.91:28080/api/v1/</string>
 
@@ -7,4 +7,6 @@
     <string name="not_correct_url">올바른 URL을 입력하세요.</string>
     <string name="not_have_clipboard">클립보드 값이 없습니다.</string>
 
+    <string name="create_short_url">CREATE SHORT URL</string>
+    <string name="insert_your_url">단축할 URL을 입력해주세요</string>
 </resources>
