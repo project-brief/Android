@@ -30,7 +30,8 @@
                    android:src="@drawable/selector_copy_content"
                    android:clickable="true"
                    android:layout_alignParentRight="true"
-                   android:layout_centerVertical="true"/>
+                   android:layout_centerVertical="true"
+                   android:id="@+id/btn_copy"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.brief.android.R
 import com.brief.android.network.data.OriginToShortData
+import com.brief.android.view.main.MainContract
 import kotlinx.android.synthetic.main.view_main_recycler_item.view.*
 
 /**
@@ -14,9 +15,14 @@ import kotlinx.android.synthetic.main.view_main_recycler_item.view.*
  */
 class ShortUrlListAdapter(private val mContext : Context) : RecyclerView.Adapter<ShortUrlListAdapter.ShortUrlViewHolder>(), ShortUrlListAdapterContract.View, ShortUrlListAdapterContract.Model{
     private var mItemArray : ArrayList<OriginToShortData> = ArrayList()
+    private var mMainPresenter: MainContract.Presenter? = null
 
     constructor(context : Context, itemArray : ArrayList<OriginToShortData>) : this(context){
         mItemArray = itemArray
+    }
+
+    fun setMainPresenter(mainPresenter: MainContract.Presenter) {
+        mMainPresenter = mainPresenter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortUrlViewHolder = ShortUrlViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_main_recycler_item, parent, false))
@@ -27,6 +33,10 @@ class ShortUrlListAdapter(private val mContext : Context) : RecyclerView.Adapter
         with(holder.itemView) {
             tv_origin_url.text = mItemArray[position].original_url
             tv_short_url.text = mItemArray[position].short_url
+
+            btn_copy.setOnClickListener {
+                mMainPresenter?.copyShortUrl(mItemArray[position].short_url)
+            }
         }
     }
 
