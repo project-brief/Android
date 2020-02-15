@@ -3,6 +3,7 @@ package com.brief.android.view.main
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.util.Log
 import com.brief.android.R
 import com.brief.android.adapter.ShortUrlListAdapterContract
 import com.brief.android.data.Config
@@ -30,9 +31,10 @@ class MainPresenter(private var mView : MainContract.View, private var mContext 
         when (itemList){
             itemList as? ArrayList<OriginToShortData> -> {
                 mModel.addAll(itemList)
+                mView.showRecyclerView()
                 mView.refresh()
             }
-            else -> TODO("리스트 정보가 없을경우 처리")
+            else -> mView.showEmptyView()
         }
     }
 
@@ -57,8 +59,7 @@ class MainPresenter(private var mView : MainContract.View, private var mContext 
                     mPrefUtil.setArray(Config.Pref.ORIGIN_TO_SHORT_ARRAY_KEY, originToShortDataList)
 
                     mModel.add(obj)
-
-                    mView.setShortUrl(obj.short_url)
+                    mView.showRecyclerView()
                     mView.refresh()
                 }
                 override fun onFail(errMsg: String?) {

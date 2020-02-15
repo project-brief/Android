@@ -2,6 +2,7 @@ package com.brief.android.view.main
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brief.android.R
@@ -29,9 +30,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         btn_paste.setOnClickListener {
             mMainPresenter.getOriginUrl()
         }
-        btn_copy.setOnClickListener {
-            mMainPresenter.copyShortUrl(et_short_url.text.toString())
-        }
         btn_short_url.setOnClickListener {
             mMainPresenter.getShortUrl(et_origin_url.text.toString())
         }
@@ -47,10 +45,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         et_origin_url.setText(value)
     }
 
-    override fun setShortUrl(value: String) {
-        et_short_url.setText(value)
-    }
-
     override fun refresh() {
         mAdapter.refresh()
     }
@@ -58,5 +52,15 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun showDialog(msg: String) {
         AlertUtil.showMsgAlearDialog(context = this, msg = msg, cancelable = true,
             positiveBtnLabel = "확인", okClickListener = DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.dismiss() })
+    }
+
+    override fun showEmptyView() {
+        rv_main.visibility = View.GONE
+        empty_text.visibility = View.VISIBLE
+    }
+
+    override fun showRecyclerView() {
+        rv_main.visibility = View.VISIBLE
+        empty_text.visibility = View.GONE
     }
 }

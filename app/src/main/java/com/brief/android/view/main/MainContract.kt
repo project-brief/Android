@@ -12,7 +12,9 @@ interface MainContract : BaseContract {
         fun refresh()
         fun showDialog(msg : String)
         fun setOriginUrl(value : String)
-        fun setShortUrl(value : String)
+
+        fun showEmptyView()
+        fun showRecyclerView()
     }
 
     interface Presenter : BaseContract.Presenter {
