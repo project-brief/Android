@@ -21,7 +21,7 @@ open class NetworkInfo(private val mContext : Context) {
 
     private fun initNetwork() {
         mHeadersMap = HashMap()
-        mHeadersMap.put("Content-Type", "application/json")
+        mHeadersMap["Content-Type"] = "application/json"
 
         val interceptor = HttpLoggingInterceptor()
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()

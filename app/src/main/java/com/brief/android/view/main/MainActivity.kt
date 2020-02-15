@@ -15,25 +15,29 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : AppCompatActivity(), MainContract.View {
 
-    private val mAdapter : ShortUrlListAdapter by lazy {
-        ShortUrlListAdapter(this@MainActivity)
-    }
-
-    private lateinit var mMainPresenter : MainPresenter
+    private val mAdapter : ShortUrlListAdapter by lazy { ShortUrlListAdapter(this@MainActivity) }
+    private val mMainPresenter : MainPresenter by lazy { MainPresenter(this@MainActivity, this@MainActivity) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mMainPresenter = MainPresenter(this@MainActivity, this@MainActivity)
+        initListener()
+        initLayout()
+    }
 
+    // Listener 초기화
+    private fun initListener() {
         btn_paste.setOnClickListener {
             mMainPresenter.getOriginUrl()
         }
         btn_short_url.setOnClickListener {
             mMainPresenter.getShortUrl(et_origin_url.text.toString())
         }
+    }
 
+    // 화면 초기화
+    private fun initLayout() {
         rv_main.adapter =mAdapter
         rv_main.layoutManager = LinearLayoutManager(this)
 
