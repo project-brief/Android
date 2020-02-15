@@ -74,10 +74,26 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/empty_container">
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/drop_shadow"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/empty_text"/>
+    </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/data_container">
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -91,11 +107,6 @@
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
                     android:id="@+id/rv_main"/>
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/empty_text"
-                    android:text="No Data"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

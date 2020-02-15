@@ -9,4 +9,5 @@
 
     <string name="create_short_url">CREATE SHORT URL</string>
     <string name="insert_your_url">단축할 URL을 입력해주세요</string>
+    <string name="empty_text">단축된 URL이 없습니다.</string>
 </resources>

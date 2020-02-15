@@ -59,12 +59,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showEmptyView() {
-        rv_main.visibility = View.GONE
-        empty_text.visibility = View.VISIBLE
+        data_container.visibility = View.GONE
+        empty_container.visibility = View.VISIBLE
     }
 
     override fun showRecyclerView() {
-        rv_main.visibility = View.VISIBLE
-        empty_text.visibility = View.GONE
+        data_container.visibility = View.VISIBLE
+        empty_container.visibility = View.GONE
     }
 }
